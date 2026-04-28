@@ -8,10 +8,13 @@ export default function CategorySection({ category, items }) {
         <span>{items.length} items</span>
       </div>
       <div className="card-grid">
-        {items.map((item) => (
-          <ItemCard key={item.itemname} item={item} />
+        {items.map((item, index) => (
+          <ItemCard key={item.itemname} item={item} index={index} />
         ))}
       </div>
     </section>
   );
 }
+
+// Export ItemCard for use in filtered views
+CategorySection.ItemCard = ItemCard;
