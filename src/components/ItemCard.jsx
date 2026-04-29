@@ -6,7 +6,6 @@ export default function ItemCard({ item, index = 0 }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  // Generate a mock price based on category
   const getPrice = (category) => {
     const prices = {
       Cars: { min: 15000, max: 100000 },
@@ -18,7 +17,6 @@ export default function ItemCard({ item, index = 0 }) {
     return Math.floor(Math.random() * (range.max - range.min) + range.min);
   };
 
-  // Generate a short description based on properties
   const getDescription = (item) => {
     const keyProps = item.itemprops.slice(0, 2).map(p => `${p.label}: ${p.value}`);
     return keyProps.join(' • ');
@@ -33,7 +31,7 @@ export default function ItemCard({ item, index = 0 }) {
 
   return (
     <article 
-      className="item-card fade-in" 
+      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100 overflow-hidden cursor-pointer fade-in"
       style={{ animationDelay: `${index * 0.05}s` }}
     >
       <Link 
@@ -41,16 +39,16 @@ export default function ItemCard({ item, index = 0 }) {
         className="block"
         aria-label={`View details for ${item.itemname}`}
       >
-        <div className="image-frame">
+        <div className="relative overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 aspect-[4/3]">
           {!imageLoaded && !imageError && (
-            <div className="absolute inset-0 skeleton" />
+            <div className="absolute inset-0 bg-slate-200 animate-pulse" />
           )}
           <img 
             src={item.image} 
             alt={item.itemname}
             loading="lazy"
             data-loading="lazy"
-            className={imageLoaded ? 'loaded' : ''}
+            className={`w-full h-full object-cover transition-transform duration-300 ${imageLoaded ? 'loaded' : ''}`}
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
           />
@@ -60,12 +58,12 @@ export default function ItemCard({ item, index = 0 }) {
             </div>
           )}
         </div>
-        <div className="card-body">
-          <span className="item-category">{item.category}</span>
-          <h3 className="line-clamp-2">{item.itemname}</h3>
-          <p className="card-description">{getDescription(item)}</p>
-          <p className="card-price">{formattedPrice}</p>
-          <span className="card-cta">
+        <div className="p-4 lg:p-6">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 mb-3">${item.category}</span>
+          <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2">{item.itemname}</h3>
+          <p className="text-slate-500 text-sm mb-4 line-clamp-2">{getDescription(item)}</p>
+          <p className="text-xl font-bold text-slate-900 mb-4">{formattedPrice}</p>
+          <span className="w-full inline-flex items-center justify-center px-5 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">
             View Details
           </span>
         </div>
